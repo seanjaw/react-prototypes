@@ -1,22 +1,35 @@
-import React , {Component} from 'react';
+import React, { Component } from 'react';
 import ContactCard from './contact_card';
 import ContactData from '../data/contacts';
 
-class ContactList extends Component{
-    constructor(props){
+class ContactList extends Component {
+    constructor(props) {
         super(props);
         this.state = {
-            contacts: ContactData 
+            contacts: ContactData
         }
     }
-    
-  
-    render(){
-        console.log('Contact Data:', this.state.contacts);
-        return <h1>Contact List</h1>
-       
+
+
+    render() {
+        const list = this.state.contacts.map((item, index)  => {
+            return <ContactCard key={index} contact = {item}/>
+            // console.log('item:', item);
+        });
+
+        return (
+            <div className="col-8">
+
+                <div className="row">
+                    {list}
+                </div>
+
+            </div>
+        )
+
 
     }
+
 }
 
 export default ContactList;
