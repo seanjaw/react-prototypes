@@ -1,42 +1,54 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import Field from './field';
 
-class ContactForm extends Component{
+class ContactForm extends Component {
     constructor(props){
         super(props);
+
         this.state = {
-            form: { 
+            form: {
                 firstName: '',
-                lastName: ''
+                lastName: '',
+                phone: '',
+                email: ''
             }
         }
+
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleInputChange(event){
-        this.setState =({
+        const { value, name } = event.target;
+
+        const { form } = this.state;
+
+        form[name] = value;
+
+        this.setState({
             form: {...form}
         });
-        console.log(event.target.value)
-        console.log(event.target.name)
     }
-    render(){
-        const {firstName, lastName} = this.state.form;
-        const {form}= this.state;
-        form[name] = value; 
-        return (
-        <form>
-            <div className="form-group">
-            <label>First Name</label>
-            <input onChange={this.handleInputChange} value = {firstName} name= "firstName" type="text" className="form-control"/>
-            </div>
 
-            <div className="form-group">
-            <label>Last Name</label>
-            <input onChange={this.handleInputChange} value = {lastName} name= "lastName" type="text" className="form-control"/>
-            </div>
-        </form>
+    handleSubmit(event){
+        event.preventDefault();
+        this.props.add(this.state.form)
+        console.log('handleSubmit called, form values are:', this.state.form);
+    }
+    
+    render(){
+        const { firstName, lastName, email, phone } = this.state.form;
+
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <Field name = "firstName" label = "First Name" type="text" value ={firstName} onChange ={this.handleInputChange}/>
+                <Field name = "lastName" label = "Last Name" type="text" value ={lastName} onChange ={this.handleInputChange}/>
+                <Field name = "email" label = "Email" type="email" value ={email} onChange ={this.handleInputChange}/>
+                <Field name = "phone" label = "Phone" type="tel" value ={phone} onChange ={this.handleInputChange}/>
+                <button>Add Contact</button>
+            </form>
         )
     }
 }
-
 
 export default ContactForm;
